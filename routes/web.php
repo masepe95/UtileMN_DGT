@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Exports\CustomersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('export-customers/{id?}', function ($id = null) {
+    $export = new CustomersExport();
+
+    if ($id) {
+        $export->forCustomer($id);
+    }
+
+    return Excel::download($export, $id ? 'customer_' . $id . '.xlsx' : 'customers.xlsx');
+})->name('export.customers');

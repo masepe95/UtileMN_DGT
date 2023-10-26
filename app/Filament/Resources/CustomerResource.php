@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CustomersExport;
+use Illuminate\Database\Eloquent\Collection;
 
 class CustomerResource extends Resource
 {
@@ -83,11 +84,15 @@ class CustomerResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\BulkAction::make('export')
-                        ->label('Export to Excel')
-                        ->button()
-                        ->url(route('export.customers'))
                 ]),
+                Tables\Actions\BulkAction::make('export')
+                    ->label('Export to Excel')
+                    ->action(function (Collection $records) {
+                        $ids = $records->pluck('id')->join(',');
+
+                        // Redireziona all'URL con gli ID selezionati
+                        return redirect(route('export.customers', $ids));
+                    }),
             ]);
     }
 

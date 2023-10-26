@@ -7,18 +7,18 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 
 class CustomersExport implements FromCollection
 {
-    protected $customerId = null;
+    protected $customerIds = [];
 
-    public function forCustomer($id)
+    public function forCustomers($ids)
     {
-        $this->customerId = $id;
+        $this->customerIds = $ids;
         return $this;
     }
 
     public function collection()
     {
-        if ($this->customerId) {
-            return collect([Customer::find($this->customerId)]);
+        if (!empty($this->customerIds)) {
+            return Customer::whereIn('id', $this->customerIds)->get();
         }
 
         return Customer::all();

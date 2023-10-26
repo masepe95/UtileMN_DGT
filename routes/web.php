@@ -19,12 +19,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('export-customers/{id?}', function ($id = null) {
+Route::get('export-customers/{ids?}', function ($ids = null) {
     $export = new CustomersExport();
 
-    if ($id) {
-        $export->forCustomer($id);
+    if ($ids) {
+        $idsArray = explode(',', $ids);
+        $export->forCustomers($idsArray);
     }
 
-    return Excel::download($export, $id ? 'customer_' . $id . '.xlsx' : 'customers.xlsx');
+    return Excel::download($export, $ids ? 'customers_selected.xlsx' : 'customers.xlsx');
 })->name('export.customers');

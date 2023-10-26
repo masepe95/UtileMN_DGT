@@ -93,6 +93,16 @@ class CustomerResource extends Resource
                         // Redireziona all'URL con gli ID selezionati
                         return redirect(route('export.customers', $ids));
                     }),
+            ])
+            ->headerActions([
+                Tables\Actions\BulkAction::make('export')
+                    ->label('Export to Excel')
+                    ->action(function (Collection $records) {
+                        $ids = $records->pluck('id')->join(',');
+
+                        // Redireziona all'URL con gli ID selezionati
+                        return redirect(route('export.customers', $ids));
+                    }),
             ]);
     }
 

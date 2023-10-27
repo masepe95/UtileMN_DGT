@@ -27,5 +27,12 @@ Route::get('export-customers/{ids?}', function ($ids = null) {
         $export->forCustomers($idsArray);
     }
 
+    // Controllo se ci sono colonne specificate nella stringa di query
+    $columns = request('columns');
+    if ($columns) {
+        $columnsArray = explode(',', $columns);
+        $export->withColumns($columnsArray);
+    }
+
     return Excel::download($export, $ids ? 'customers_selected.xlsx' : 'customers.xlsx');
 })->name('export.customers');

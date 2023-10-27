@@ -48,26 +48,41 @@ class CustomerResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $columns = [
+            'name',
+            'surname',
+            'codice_fiscale',
+            'date_of_birth',
+            'email',
+            'address',
+        ];
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(isIndividual: true)
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('surname')
                     ->searchable(isIndividual: true)
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('codice_fiscale')
                     ->searchable(isIndividual: true)
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('date_of_birth')
                     ->searchable(isIndividual: true)
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(isIndividual: true)
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('address')
                     ->searchable(isIndividual: true)
                     ->sortable()
+                    ->toggleable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('type')
@@ -77,8 +92,10 @@ class CustomerResource extends Resource
                 Tables\Actions\Action::make('export')
                     ->label('Export to Excel')
                     ->button()
-                    ->url(function ($record) {
-                        return route('export.customers', $record->id);
+                    ->url(function ($record) use ($columns) {
+                        $url = route('export.customers', $record->id);
+                        $url .= '?columns=' . implode(',', $columns);
+                        return $url;
                     })
             ])
             ->bulkActions([
@@ -87,21 +104,17 @@ class CustomerResource extends Resource
                 ]),
                 Tables\Actions\BulkAction::make('export')
                     ->label('Export to Excel')
-                    ->action(function (Collection $records) {
+                    ->action(function (Collection $records) use ($columns) {
                         $ids = $records->pluck('id')->join(',');
-
-                        // Redireziona all'URL con gli ID selezionati
-                        return redirect(route('export.customers', $ids));
+                        return redirect(route('export.customers', $ids) . '?columns=' . implode(',', $columns));
                     }),
             ])
             ->headerActions([
                 Tables\Actions\BulkAction::make('export')
                     ->label('Export to Excel')
-                    ->action(function (Collection $records) {
+                    ->action(function (Collection $records) use ($columns) {
                         $ids = $records->pluck('id')->join(',');
-
-                        // Redireziona all'URL con gli ID selezionati
-                        return redirect(route('export.customers', $ids));
+                        return redirect(route('export.customers', $ids) . '?columns=' . implode(',', $columns));
                     }),
             ]);
     }

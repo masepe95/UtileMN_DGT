@@ -18,6 +18,12 @@ use Illuminate\Database\Eloquent\Collection;
 
 class CustomerResource extends Resource
 {
+    protected static ?string $navigationLabel = 'Anagrafica Clienti';
+
+    protected static ?string $modelLabel = 'Cliente';
+
+    protected static ?string $pluralModelLabel = 'Clienti';
+
     protected static ?string $model = Customer::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -28,21 +34,27 @@ class CustomerResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Nome'),
                 Forms\Components\TextInput::make('surname')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Cognome'),
                 Forms\Components\TextInput::make('codice_fiscale')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Codice Fiscale'),
                 Forms\Components\DatePicker::make('date_of_birth')
                     ->required()
-                    ->maxDate(now()),
+                    ->maxDate(now())
+                    ->label('Data di Nascita'),
                 Forms\Components\TextInput::make('email')
                     ->email()
-                    ->required(),
+                    ->required()
+                    ->label('E-Mail'),
                 Forms\Components\TextInput::make('address')
                     ->required()
+                    ->label('Indirizzo'),
             ]);
     }
 
@@ -62,27 +74,33 @@ class CustomerResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(isIndividual: true)
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->label('Nome'),
                 Tables\Columns\TextColumn::make('surname')
                     ->searchable(isIndividual: true)
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->label('Cognome'),
                 Tables\Columns\TextColumn::make('codice_fiscale')
                     ->searchable(isIndividual: true)
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->label('Codice Fiscale'),
                 Tables\Columns\TextColumn::make('date_of_birth')
                     ->searchable(isIndividual: true)
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->label('Data di Nascita'),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(isIndividual: true)
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->label('E-Mail'),
                 Tables\Columns\TextColumn::make('address')
                     ->searchable(isIndividual: true)
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->label('Indirizzo')
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('type')

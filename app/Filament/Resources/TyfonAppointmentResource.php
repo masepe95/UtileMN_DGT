@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TyfonAppointmentResource\Pages;
 use App\Filament\Resources\TyfonAppointmentResource\RelationManagers;
 use App\Models\TyfonAppointment;
+use App\Models\TyfonContract;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,6 +16,12 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TyfonAppointmentResource extends Resource
 {
+    protected static ?string $navigationLabel = 'Servizi Tyfon';
+
+    protected static ?string $modelLabel = 'Servizio Tyfon';
+
+    protected static ?string $pluralModelLabel = 'Servizi Tyfon';
+
     protected static ?string $model = TyfonAppointment::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -34,7 +41,8 @@ class TyfonAppointmentResource extends Resource
                 Tables\Columns\TextColumn::make('idAppuntamento')
                     ->searchable(isIndividual: true)
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->label('ID'),
                 Tables\Columns\TextColumn::make('cognome')
                     ->searchable(isIndividual: true)
                     ->sortable()
@@ -46,15 +54,18 @@ class TyfonAppointmentResource extends Resource
                 Tables\Columns\TextColumn::make('cf')
                     ->searchable(isIndividual: true)
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->label('Codice Fiscale'),
                 Tables\Columns\TextColumn::make('ragsoc')
                     ->searchable(isIndividual: true)
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->label('Ragione Sociale'),
                 Tables\Columns\TextColumn::make('piva')
                     ->searchable(isIndividual: true)
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->label('Partita IVA'),
                 Tables\Columns\TextColumn::make('telefono')
                     ->searchable(isIndividual: true)
                     ->sortable()
@@ -62,7 +73,8 @@ class TyfonAppointmentResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(isIndividual: true)
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->label('E-Mail'),
                 Tables\Columns\TextColumn::make('indirizzo')
                     ->searchable(isIndividual: true)
                     ->sortable()
@@ -72,7 +84,8 @@ class TyfonAppointmentResource extends Resource
                 Tables\Columns\TextColumn::make('cap')
                     ->searchable(isIndividual: true)
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->label('CAP'),
                 Tables\Columns\TextColumn::make('comune')
                     ->searchable(isIndividual: true)
                     ->sortable()
@@ -84,7 +97,9 @@ class TyfonAppointmentResource extends Resource
                 Tables\Columns\TextColumn::make('annullato')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('statoSegnalazione')
-                    ->toggleable(),
+                    ->toggleable()
+                    ->label('Stato Segnalazione'),
+
             ])
             ->filters([
                 //
@@ -102,7 +117,8 @@ class TyfonAppointmentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\InterventionsRelationManager::class,
+            RelationManagers\ContractsRelationManager::class,
         ];
     }
 

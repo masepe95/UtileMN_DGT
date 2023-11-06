@@ -18,11 +18,11 @@ class TyfonInterventionProduct extends Model
 
     // Gli attributi che sono assegnabili in massa.
     protected $fillable = [
+        'idProdottoIntervento',
         'idIntervento',
-        'idOrdine',
-        'tipoIntervento',
-        'statoIntervento',
-        'esitoIntervento'
+        'Descrizione',
+        'Tipologia',
+        'Qta'
     ];
 
 

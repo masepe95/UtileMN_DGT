@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('tyfon_intervention_products', function (Blueprint $table) {
             $table->id('idProdottoIntervento');
             $table->foreignId('idIntervento')->nullable();
-            $table->string('idOrdine')->nullable();
-            $table->string('tipoIntervento')->nullable();
-            $table->string('statoIntervento')->nullable();
-            $table->string('esitoIntervento')->nullable();
+            $table->string('Descrizione')->nullable();
+            $table->string('tipologia')->nullable();
+            $table->string('Qta')->nullable();
         });
     }
 

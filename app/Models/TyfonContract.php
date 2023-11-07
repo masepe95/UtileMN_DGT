@@ -66,4 +66,9 @@ class TyfonContract extends Model
     {
         return $this->hasMany(TyfonContractProduct::class, 'idContratto');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(TyfonUser::class, 'cf', 'cf');
+    }
 }

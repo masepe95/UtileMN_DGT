@@ -56,4 +56,9 @@ class TyfonAppointment extends Model
     {
         return $this->hasOne(TyfonContract::class, 'idAppuntamento');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(TyfonUser::class, 'cf', 'cf');
+    }
 }

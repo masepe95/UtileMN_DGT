@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\TyfonAppointmentResource\RelationManagers;
+namespace App\Filament\Resources\UserResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -10,15 +10,15 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ContractsRelationManager extends RelationManager
+class AppuntamentiRelationManager extends RelationManager
 {
-    protected static string $relationship = 'contract';
+    protected static string $relationship = 'appointments';
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('idService')
+                Forms\Components\TextInput::make('IdAppuntamento')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -27,16 +27,9 @@ class ContractsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('idService')
+            ->recordTitleAttribute('IdAppuntamento')
             ->columns([
-                Tables\Columns\TextColumn::make('idService'),
-                Tables\Columns\TextColumn::make('tipologiaProdotto'),
-                Tables\Columns\TextColumn::make('tipologiaAttivazione'),
-                Tables\Columns\TextColumn::make('datadecorrenzacontratto'),
-                Tables\Columns\TextColumn::make('datastipula'),
-                Tables\Columns\TextColumn::make('dataAttivazione'),
-                Tables\Columns\TextColumn::make('dataultimamanutenzione'),
-                Tables\Columns\TextColumn::make('dataprossimamanutenzione'),
+                Tables\Columns\TextColumn::make('IdAppuntamento'),
             ])
             ->filters([
                 //

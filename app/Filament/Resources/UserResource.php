@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\TyfonAppointmentResource\Pages;
-use App\Filament\Resources\TyfonAppointmentResource\RelationManagers;
-use App\Models\TyfonAppointment;
+use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\TyfonUser;
 use App\Models\TyfonContract;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -13,8 +13,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Enums\ActionsPosition;
 
-class TyfonAppointmentResource extends Resource
+class UserResource extends Resource
 {
     protected static ?string $navigationLabel = 'Servizi Tyfon';
 
@@ -22,7 +23,7 @@ class TyfonAppointmentResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Servizi Tyfon';
 
-    protected static ?string $model = TyfonAppointment::class;
+    protected static ?string $model = TyfonUser::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -38,11 +39,6 @@ class TyfonAppointmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('idAppuntamento')
-                    ->searchable(isIndividual: true)
-                    ->sortable()
-                    ->toggleable()
-                    ->label('ID'),
                 Tables\Columns\TextColumn::make('cognome')
                     ->searchable(isIndividual: true)
                     ->sortable()
@@ -93,20 +89,16 @@ class TyfonAppointmentResource extends Resource
                 Tables\Columns\TextColumn::make('provincia')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('note')
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('annullato')
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('statoSegnalazione')
                     ->toggleable()
-                    ->label('Stato Segnalazione'),
-
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
+                Tables\Actions\ViewAction::make(),
+
+            ], position: ActionsPosition::BeforeColumns)
+
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -114,20 +106,16 @@ class TyfonAppointmentResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            RelationManagers\InterventionsRelationManager::class,
-            RelationManagers\ContractsRelationManager::class,
-        ];
-    }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTyfonAppointments::route('/'),
-            'create' => Pages\CreateTyfonAppointment::route('/create'),
-            'edit' => Pages\EditTyfonAppointment::route('/{record}/edit'),
+            'index' => Pages\ListUsers::route('/'),
+
         ];
+    }
+    public static function canCreate(): bool
+    {
+        return false;
     }
 }

@@ -14,6 +14,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Enums\ActionsPosition;
+use Filament\Forms\Components\TextInput;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 
 class UserResource extends Resource
 {
@@ -30,8 +33,24 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+
             ->schema([
-                //
+                Forms\Components\TextInput::make('nome')
+                    ->required()
+                    ->maxLength(255)
+                    ->label('Nome'),
+                Forms\Components\TextInput::make('cognome')
+                    ->required()
+                    ->maxLength(255)
+                    ->label('Cognome'),
+                Forms\Components\TextInput::make('cf')
+                    ->required()
+                    ->maxLength(255)
+                    ->label('Codice Fiscale'),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->label('E-Mail'),
             ]);
     }
 
@@ -95,7 +114,8 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+
 
             ], position: ActionsPosition::BeforeColumns)
 
@@ -111,11 +131,33 @@ class UserResource extends Resource
     {
         return [
             'index' => Pages\ListUsers::route('/'),
+            'edit' => Pages\EditUser::route('/{record}/edit'),
 
         ];
     }
     public static function canCreate(): bool
     {
         return false;
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('nome'),
+                Infolists\Components\TextEntry::make('cognome'),
+                Infolists\Components\TextEntry::make('ragsoc'),
+                Infolists\Components\TextEntry::make('piva'),
+
+            ])
+            ->columns(4);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\AppointmentsRelationManager::class,
+            RelationManagers\ContractsRelationManager::class,
+        ];
     }
 }

@@ -9,8 +9,13 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Grouping\Group;
+use Filament\Tables\Columns\Layout\Panel;
+use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\ImageColumn;
 
-class AppuntamentiRelationManager extends RelationManager
+class AppointmentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'appointments';
 
@@ -18,7 +23,7 @@ class AppuntamentiRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('IdAppuntamento')
+                Forms\Components\TextInput::make('idAppuntamento')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -27,10 +32,17 @@ class AppuntamentiRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('IdAppuntamento')
+            ->recordTitleAttribute('idAppuntamento')
+            ->defaultGroup('idAppuntamento')
             ->columns([
-                Tables\Columns\TextColumn::make('IdAppuntamento'),
+                Tables\Columns\TextColumn::make('dataAppuntamento'),
+                Tables\Columns\TextColumn::make('note'),
+                Tables\Columns\TextColumn::make('statoSegnalazione'),
+                Tables\Columns\TextColumn::make('annullato'),
+                Tables\Columns\TextColumn::make('interventions.tipoIntervento'),
+                Tables\Columns\TextColumn::make('interventions.statoIntervento'),
             ])
+
             ->filters([
                 //
             ])

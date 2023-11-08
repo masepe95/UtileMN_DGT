@@ -30,4 +30,8 @@ class TyfonIntervention extends Model
     {
         return $this->belongsTo(TyfonAppointment::class, 'idAppuntamento');
     }
+    public function products()
+    {
+        return $this->hasMany(TyfonInterventionProduct::class, 'idIntervento');
+    }
 }

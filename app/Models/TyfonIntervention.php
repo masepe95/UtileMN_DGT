@@ -20,7 +20,7 @@ class TyfonIntervention extends Model
     // Gli attributi che sono assegnabili in massa.
     protected $fillable = [
         'idAppuntamento',
-        'interventoid',
+        'idIntervento',
         'idOrdine',
         'tipoIntervento',
         'statoIntervento',
@@ -30,6 +30,7 @@ class TyfonIntervention extends Model
     {
         return $this->belongsTo(TyfonAppointment::class, 'idAppuntamento');
     }
+
     public function products()
     {
         return $this->hasMany(TyfonInterventionProduct::class, 'idIntervento');

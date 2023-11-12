@@ -14,6 +14,11 @@ use Filament\Tables\Columns\Layout\Panel;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Tables\Actions\ModalAction;
+use Filament\Tables\Actions\Action;
+use App\Models\TyfonAppointment;
+use App\Models\TyfonIntervention;
 
 class AppointmentsRelationManager extends RelationManager
 {
@@ -23,35 +28,34 @@ class AppointmentsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('idAppuntamento')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\TextInput::make('idAppuntamento'),
+                Forms\Components\TextInput::make('interventions.statoIntervento'),
             ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('idAppuntamento')
-            ->defaultGroup('idAppuntamento')
             ->columns([
+                Tables\Columns\TextColumn::make('idAppuntamento'),
                 Tables\Columns\TextColumn::make('dataAppuntamento'),
                 Tables\Columns\TextColumn::make('note'),
                 Tables\Columns\TextColumn::make('statoSegnalazione'),
                 Tables\Columns\TextColumn::make('annullato'),
-                Tables\Columns\TextColumn::make('interventions.tipoIntervento'),
-                Tables\Columns\TextColumn::make('interventions.statoIntervento'),
             ])
 
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make('viewInterventions'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Action::make('viewInterventions')
+                    ->label('Visualizza Interventi')
+                    ->action(fn (TyfonAppointment $record) => $record->load('interventions'))
+                    ->action(fn (TyfonAppointment $record) => $record->load('interventions.products'))
+                    ->modalContent(fn (TyfonAppointment $record) => view('admin.interventions-modal', ['interventions' => $record->interventions])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -9,6 +9,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\Action;
+use App\Models\TyfonContract;
 
 class ContractsRelationManager extends RelationManager
 {
@@ -45,8 +47,10 @@ class ContractsRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Action::make('viewInterventions')
+                    ->label('Visualizza Interventi')
+                    ->action(fn (TyfonContract $record) => $record->load('contractProducts'))
+                    ->modalContent(fn (TyfonContract $record) => view('admin.contractproducts-modal', ['contractProducts' => $record->contractProducts])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

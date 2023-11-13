@@ -36,3 +36,6 @@ Route::get('export-customers/{ids?}', function ($ids = null) {
 
     return Excel::download($export, $ids ? 'customers_selected.xlsx' : 'customers.xlsx');
 })->name('export.customers');
+
+Route::get('/api-proxy', [APIProxyController::class, 'proxyRequest']);
+Route::get('/api-proxy2', [APIProxyController::class, 'proxyRequest2']);

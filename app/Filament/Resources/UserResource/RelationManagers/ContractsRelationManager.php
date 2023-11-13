@@ -47,8 +47,8 @@ class ContractsRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Action::make('viewInterventions')
-                    ->label('Visualizza Interventi')
+                Action::make('viewProducts')
+                    ->label('Visualizza Prodotti ')
                     ->action(fn (TyfonContract $record) => $record->load('contractProducts'))
                     ->modalContent(fn (TyfonContract $record) => view('admin.contractproducts-modal', ['contractProducts' => $record->contractProducts])),
             ])

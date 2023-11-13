@@ -17,6 +17,8 @@ use Filament\Tables\Enums\ActionsPosition;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
+use App\public\js\custom;
+
 
 class UserResource extends Resource
 {
@@ -29,6 +31,8 @@ class UserResource extends Resource
     protected static ?string $model = TyfonUser::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+
 
     public static function form(Form $form): Form
     {
@@ -57,6 +61,19 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                Tables\Actions\Action::make('aggiornaAppuntamenti')
+                    ->label('AGGIORNA APPUNTAMENTI')
+                    ->action(function () {
+                        return redirect()->to('/api-proxy');
+                    }),
+
+                Tables\Actions\Action::make('aggiornaContratti')
+                    ->label('AGGIORNA CONTRATTI')
+                    ->action(function () {
+                        return redirect()->to('/api-proxy2');
+                    }),
+            ])
             ->columns([
                 Tables\Columns\TextColumn::make('cognome')
                     ->searchable(isIndividual: true)

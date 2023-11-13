@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('Descrizione')->nullable();
             $table->string('tipologia')->nullable();
             $table->string('Qta')->nullable();
+            $table->string('Cd_ARGruppo2')->nullable();
         });
     }
 

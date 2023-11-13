@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Exports\CustomersExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\APIProxyController;
 
 /*
 |--------------------------------------------------------------------------

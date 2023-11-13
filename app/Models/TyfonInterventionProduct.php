@@ -22,7 +22,8 @@ class TyfonInterventionProduct extends Model
         'idIntervento',
         'Descrizione',
         'Tipologia',
-        'Qta'
+        'Qta',
+        'Cd_ARGruppo2',
     ];
 
 

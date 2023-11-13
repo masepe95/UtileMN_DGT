@@ -26,27 +26,31 @@ class APIProxyController extends Controller
             $data = json_decode($response->getBody()->getContents(), true);
 
             foreach ($data as $item) {
+                unset($item['tipologiaProdotto']);
+                $interventionsData = $item['interventi'] ?? [];
+                unset($item['interventi']);
                 $appointment = new TyfonAppointment();
                 $appointment->fill($item);
                 $appointment->save();
 
-                if (isset($item['interventi'])) {
-                    foreach ($item['interventi'] as $interventionData) {
-                        $intervention = new TyfonIntervention();
-                        $intervention->fill($interventionData);
-                        $intervention->idAppuntamento = $appointment->idAppuntamento;
-                        $intervention->save();
+                foreach ($interventionsData as $interventionData) {
+                    $ProductsData = $interventionData['prodotti'] ?? [];
+                    unset($interventionData['prodotti']);
+                    $intervention = new TyfonIntervention();
+                    $intervention->fill($interventionData);
+                    $intervention->idAppuntamento = $appointment->idAppuntamento;
+                    $intervention->save();
 
-                        if (isset($interventionData['prodotti'])) {
-                            foreach ($interventionData['prodotti'] as $productData) {
-                                $product = new TyfonInterventionProduct();
-                                $product->fill($productData);
-                                $product->idIntervento = $intervention->idIntervento;
-                                $product->save();
-                            }
-                        }
+                    foreach ($ProductsData as $ProductData) {
+                        $product = new TyfonInterventionProduct();
+                        $product->fill($ProductData);
+                        $product->idIntervento = $intervention->idIntervento;
+                        $product->save();
                     }
                 }
+
+
+
 
                 $this->createOrUpdateUser($item);
             }
@@ -69,18 +73,20 @@ class APIProxyController extends Controller
             $data = json_decode($response->getBody()->getContents(), true);
 
             foreach ($data as $item) {
+                $prodottiData = $item['prodotti'] ?? [];
+                unset($item['prodotti']);
                 $contract = new TyfonContract();
                 $contract->fill($item);
                 $contract->save();
 
-                if (isset($item['prodotti'])) {
-                    foreach ($item['prodotti'] as $prodottiData) {
-                        $prodotti = new TyfonContractProduct();
-                        $prodotti->fill($prodottiData);
-                        $prodotti->idContratto = $contract->idContratto;
-                        $prodotti->save();
-                    }
+
+                foreach ($prodottiData as $prodottoData) {
+                    $prodotti = new TyfonContractProduct();
+                    $prodotti->fill($prodottoData);
+                    $prodotti->idContratto = $contract->idContratto;
+                    $prodotti->save();
                 }
+
 
                 $this->createOrUpdateUser($item);
             }

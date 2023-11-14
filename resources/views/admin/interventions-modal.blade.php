@@ -15,16 +15,35 @@
                 <td style="text-align: center">{{ $intervention->idOrdine }}</td>
                 <td style="text-align: center">{{ $intervention->esitoIntervento }}</td>
                 <td style="text-align: center">{{ $intervention->statoIntervento }}</td>
-                @foreach ($intervention->products as $product)
-                <tr>
-                    <td>{{ $product->idProdottoIntervento }}</td>
-                    <td>{{ $product->idIntervento }}</td>
-                    <td>{{ $product->Descrizione }}</td>
-                    <td>{{ $product->Tipologia }}</td>
-                    <td>{{ $product->Qta}}</td>
-                </tr>
-            @endforeach
             </tr>
         @endforeach
     </tbody>
 </table>
+
+@if (count($intervention->products)>0)
+    
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID PRODOTTO</th>
+                <th>ID INTERVENTO</th>
+                <th>DESCRIZIONE</th>
+                <th>TIPOLOGIA</th>
+                <th>QTA</th>
+                <!-- Altre intestazioni di colonna -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($intervention->products as $product)
+            <tr>
+                <td style="text-align: center">{{ $product->idProdottoIntervento }}</td>
+                <td style="text-align: center">{{ $product->idIntervento }}</td>
+                <td style="text-align: center">{{ $product->Descrizione }}</td>
+                <td style="text-align: center">{{ $product->Tipologia }}</td>
+                <td style="text-align: center">{{ $product->Qta}}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    @endif

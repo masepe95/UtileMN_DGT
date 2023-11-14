@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\Action;
 use App\Models\TyfonContract;
+use Filament\Tables\Enums\ActionsPosition;
 
 class ContractsRelationManager extends RelationManager
 {
@@ -50,8 +51,9 @@ class ContractsRelationManager extends RelationManager
                 Action::make('viewProducts')
                     ->label('Visualizza Prodotti ')
                     ->action(fn (TyfonContract $record) => $record->load('contractProducts'))
-                    ->modalContent(fn (TyfonContract $record) => view('admin.contractproducts-modal', ['contractProducts' => $record->contractProducts])),
-            ])
+                    ->modalContent(fn (TyfonContract $record) => view('admin.contractproducts-modal', ['contractProducts' => $record->contractProducts]))
+                    ->modalWidth('7xl'),
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

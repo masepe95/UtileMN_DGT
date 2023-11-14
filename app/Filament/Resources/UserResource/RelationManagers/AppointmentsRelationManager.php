@@ -19,10 +19,12 @@ use Filament\Tables\Actions\ModalAction;
 use Filament\Tables\Actions\Action;
 use App\Models\TyfonAppointment;
 use App\Models\TyfonIntervention;
+use Filament\Tables\Enums\ActionsPosition;
 
 class AppointmentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'appointments';
+
 
     public function form(Form $form): Form
     {
@@ -55,8 +57,9 @@ class AppointmentsRelationManager extends RelationManager
                     ->label('Visualizza Interventi')
                     ->action(fn (TyfonAppointment $record) => $record->load('interventions'))
                     ->action(fn (TyfonAppointment $record) => $record->load('interventions.products'))
-                    ->modalContent(fn (TyfonAppointment $record) => view('admin.interventions-modal', ['interventions' => $record->interventions])),
-            ])
+                    ->modalContent(fn (TyfonAppointment $record) => view('admin.interventions-modal', ['interventions' => $record->interventions]))
+                    ->modalWidth('7xl'),
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

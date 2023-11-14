@@ -11,10 +11,10 @@
     <tbody>
         @foreach ($interventions as $intervention)
             <tr>
-                <td>{{ $intervention->idAppuntamento }}</td>
-                <td>{{ $intervention->idOrdine }}</td>
-                <td>{{ $intervention->esitoIntervento }}</td>
-                <td>{{ $intervention->statoIntervento }}</td>
+                <td style="text-align: center">{{ $intervention->idAppuntamento }}</td>
+                <td style="text-align: center">{{ $intervention->idOrdine }}</td>
+                <td style="text-align: center">{{ $intervention->esitoIntervento }}</td>
+                <td style="text-align: center">{{ $intervention->statoIntervento }}</td>
                 @foreach ($intervention->products as $product)
                 <tr>
                     <td>{{ $product->idProdottoIntervento }}</td>

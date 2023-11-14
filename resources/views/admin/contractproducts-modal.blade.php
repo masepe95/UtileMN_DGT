@@ -14,13 +14,13 @@
     <tbody>
         @foreach ($contractProducts as $contractProduct)
             <tr>
-                <td>{{ $contractProduct->idContratto }}</td>
-                <td>{{ $contractProduct->Attributo }}</td>
-                <td>{{ $contractProduct->descArticolo }}</td>
-                <td>{{ $contractProduct->modello }}</td>
-                <td>{{ $contractProduct->marca }}</td>
-                <td>{{ $contractProduct->tipoapparecchio }}</td>
-                <td>{{ $contractProduct->importo }}</td>
+                <td style="text-align: center">{{ $contractProduct->idContratto }}</td>
+                <td style="text-align: center">{{ $contractProduct->Attributo }}</td>
+                <td style="text-align: center">{{ $contractProduct->descArticolo }}</td>
+                <td style="text-align: center">{{ $contractProduct->modello }}</td>
+                <td style="text-align: center">{{ $contractProduct->marca }}</td>
+                <td style="text-align: center">{{ $contractProduct->tipoapparecchio }}</td>
+                <td style="text-align: center">{{ $contractProduct->importo }}</td>
             </tr>
         @endforeach
     </tbody>

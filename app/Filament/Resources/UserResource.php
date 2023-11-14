@@ -17,16 +17,16 @@ use Filament\Tables\Enums\ActionsPosition;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
-use App\public\js\custom;
+use Filament\Resources\RelationManagers\RelationGroup;
 
 
 class UserResource extends Resource
 {
-    protected static ?string $navigationLabel = 'Servizi Tyfon';
+    protected static ?string $navigationLabel = 'MetanoNordServices';
 
-    protected static ?string $modelLabel = 'Servizio Tyfon';
+    protected static ?string $modelLabel = 'MetanoNordService';
 
-    protected static ?string $pluralModelLabel = 'Servizi Tyfon';
+    protected static ?string $pluralModelLabel = 'MetanoNordServices';
 
     protected static ?string $model = TyfonUser::class;
 
@@ -131,7 +131,10 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->icon('heroicon-m-magnifying-glass')
+                    ->label('')
+                    ->disabledForm(),
 
 
             ], position: ActionsPosition::BeforeColumns)
@@ -173,8 +176,15 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\AppointmentsRelationManager::class,
-            RelationManagers\ContractsRelationManager::class,
+
+            RelationGroup::make('Appuntamenti', [
+                RelationManagers\AppointmentsRelationManager::class,
+
+            ]),
+            RelationGroup::make('Contratti', [
+                RelationManagers\ContractsRelationManager::class,
+
+            ]),
         ];
     }
 }

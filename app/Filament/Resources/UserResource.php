@@ -18,6 +18,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 
 class UserResource extends Resource
@@ -143,6 +146,14 @@ class UserResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+                Tables\Actions\BulkAction::make('export')
+                    ->label('ESPORTA')
+                    ->action(function ($records) {
+                        $recordCfs = $records->pluck('cf')->toArray();
+
+                        $export = new UsersExport($recordCfs);
+                        return Excel::download($export, 'users.xlsx');
+                    }),
             ]);
     }
 

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Exports\CustomersExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\APIProxyController;
 
@@ -20,23 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('export-customers/{ids?}', function ($ids = null) {
-    $export = new CustomersExport();
-
-    if ($ids) {
-        $idsArray = explode(',', $ids);
-        $export->forCustomers($idsArray);
-    }
-
-    // Controllo se ci sono colonne specificate nella stringa di query
-    $columns = request('columns');
-    if ($columns) {
-        $columnsArray = explode(',', $columns);
-        $export->withColumns($columnsArray);
-    }
-
-    return Excel::download($export, $ids ? 'customers_selected.xlsx' : 'customers.xlsx');
-})->name('export.customers');
 
 Route::get('/api-proxy', [APIProxyController::class, 'proxyRequest']);
 Route::get('/api-proxy2', [APIProxyController::class, 'proxyRequest2']);

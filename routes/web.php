@@ -15,9 +15,9 @@ use App\Http\Controllers\APIProxyController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 
 Route::get('/api-proxy', [APIProxyController::class, 'proxyRequest']);

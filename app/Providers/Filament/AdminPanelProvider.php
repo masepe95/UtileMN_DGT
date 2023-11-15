@@ -26,7 +26,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('images/metanonordlogo.png'))
             ->default()
             ->id('admin')
-            ->path('admin')
+            ->path('')
             ->login()
             ->colors([
                 'primary' => Color::Amber,
